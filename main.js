@@ -22,13 +22,25 @@ function showNewJoke() {
     const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
     jokeText.innerHTML = `<i class="bi bi-quote fs-2"></i> ${randomJoke.joke}`;
     authorText.textContent = randomJoke.author || "Unknown";
-    updateTwitterShare(randomJoke);
+    updateSocialShare(randomJoke);
+
 }
 
-function updateTwitterShare(jokeObj) {
-    const tweetText = `${jokeObj.joke} — ${jokeObj.author}`;
-    const tweetURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+function updateSocialShare(jokeObj) {
+    const joke = `${jokeObj.joke} — ${jokeObj.author}`;
+
+    // Twitter
+    const tweetURL = `https://twitter.com/intent/tweet?text=${encodeURIComponent(joke)}`;
     shareBtn.setAttribute('onclick', `window.open('${tweetURL}', '_blank')`);
+
+    // WhatsApp
+    const whatsappURL = `https://wa.me/?text=${encodeURIComponent(joke)}`;
+    document.getElementById('share-whatsapp').setAttribute('onclick', `window.open('${whatsappURL}', '_blank')`);
+
+    // Facebook
+    const fbURL = `https://www.facebook.com/sharer/sharer.php?u=&quote=${encodeURIComponent(joke)}`;
+    document.getElementById('share-facebook').setAttribute('onclick', `window.open('${fbURL}', '_blank')`);
 }
+
 
 newJokeBtn.addEventListener('click', showNewJoke);
